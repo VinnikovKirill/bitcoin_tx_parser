@@ -19,19 +19,17 @@ d_3 = {0:'inputs:', 1:'outputs:'} #used in printing result later on
 
 def convert_to_script(raw_script_string): #converting raw hex string to script langauge
     result_string = ''
-    hex_value_string = ''
     while raw_script_string != '':
         temp = raw_script_string[:2]
         if temp not in d_1.keys():
-            hex_value_string += temp
+            bytesize = int(temp, 16)
+            raw_script_string = raw_script_string[2:]
+
+            result_string += (str(int(raw_script_string[:bytesize * 2], 16))) + ' '
+            raw_script_string = raw_script_string[bytesize * 2:]
         else:
-            if hex_value_string != '':
-                result_string += str(int(hex_value_string.strip(), 16)) + ' '
-                hex_value_string = ''
             result_string += d_1.get(temp) + ' '
-        raw_script_string = raw_script_string[2:]
-    if hex_value_string != '':
-        result_string += str(int(hex_value_string.strip(), 16))
+            raw_script_string = raw_script_string[2:]
     return result_string        
 
 def hex_to_little_endian(hex_string): #turns hex_string to little endian, returns bytes
